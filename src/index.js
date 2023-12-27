@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import RegisterEoi from './Pages/RegisterEoi';
+import LoginPage from './Pages/LoginPage';
 import {
     createBrowserRouter,
     RouterProvider,
@@ -15,6 +16,9 @@ const router = createBrowserRouter([{
 }, 
   {  path: "register",
     element: <RegisterEoi/>
+},
+{  path: "login",
+    element: <LoginPage/>
 },
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
