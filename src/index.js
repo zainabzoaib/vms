@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import RegisterEoi from './Pages/RegisterEoi';
 import LoginPage from './Pages/LoginPage';
+import DashboardHome from './Pages/DashboardHome'
+import PageAfterRegistration from './Pages/PageAfterRegistration';
 import {
     createBrowserRouter,
     RouterProvider,
@@ -19,6 +21,12 @@ const router = createBrowserRouter([{
 },
 {  path: "login",
     element: <LoginPage/>
+},
+{  path: "success",
+    element: <PageAfterRegistration/>
+},
+{  path: "dashboard",
+    element: <DashboardHome/>
 },
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
