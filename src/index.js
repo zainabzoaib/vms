@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import RegisterEoi from './Pages/RegisterEoi';
 import LoginPage from './Pages/LoginPage';
 import DashboardHome from './Pages/DashboardHome'
+import Entries from './Pages/Entries';
+import Users from './Pages/Users';
 import PageAfterRegistration from './Pages/PageAfterRegistration';
 import {
     createBrowserRouter,
@@ -27,6 +29,12 @@ const router = createBrowserRouter([{
 },
 {  path: "dashboard",
     element: <DashboardHome/>
+},
+{  path: "dashboard/entries",
+    element: <Entries/>
+},
+{  path: "dashboard/users",
+    element: <Users/>
 },
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));

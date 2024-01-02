@@ -7,17 +7,16 @@ function PageAfterRegistration() {
       <div className="md:column-1 bg-midnight items-center">
         <img className="mx-auto pt-4" src={Company} alt="Logo" />;
       </div>
-    {/* desktop view */}
+      {/* desktop view */}
       <div className="md:columns-1 md:block items-center">
         <div className="w-full h-full md:flex md:py-12 p-8">
           <div class="mx-auto">
             <h1 className="text-4xl text-center">QR CODE</h1>
-            <p className="text-center">Please Scan QR code for simple gate entry to be sent to your email.</p>
-            <img
-            className="max-w-full mx-auto py-4"
-            src={code}
-            alt="qr-code"
-          />  
+            <p className="text-center">
+              Please Scan QR code for simple gate entry to be sent to your
+              email.
+            </p>
+            <img className="max-w-full mx-auto py-4" src={code} alt="qr-code" />
           </div>
         </div>
       </div>
