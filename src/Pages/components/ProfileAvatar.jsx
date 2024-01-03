@@ -12,8 +12,9 @@ const ProfileAvatarButton = ({ onClick, src, alt }) => {
         alignItems: "center",
         cursor: "pointer",
         background: "none",
-        border: "none",
+        borderRight: "1px solid grey",
         outline: "none",
+        paddingRight:"10%",
       }}
     >
         <div>

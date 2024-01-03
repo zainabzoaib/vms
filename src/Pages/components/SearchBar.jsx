@@ -3,12 +3,12 @@ import React from 'react';
 
 const SearchBar = ({ onSearch }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex justify-end items-center">
       <div className="relative">
         <input
           type="text"
           placeholder="Search..."
-          className="p-2 pl-8 pr-20 bg-silver rounded-md mr-2"
+          className="p-2 pl-8 pr-40 bg-silver rounded-md mr-2"
           onChange={(e) => onSearch(e.target.value)}
         />
         <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
