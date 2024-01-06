@@ -1,6 +1,6 @@
 import { React, useState } from "react";
-import Company from "./Company.png";
-import dashboard_img from "./dashboard-icon.png";
+import Company from "./assests/Company.png";
+import dashboard_img from "./assests/dashboard-icon.png";
 import { Link } from "react-router-dom";
 import SearchBar from "./components/SearchBar.jsx";
 import LogoutIconComponent from "./components/logout.jsx";
@@ -12,7 +12,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import EntriesRecords from "./components/EntriesRecords.jsx";
 import UserRecords from "./components/UserRecords.jsx";
-import NewUser from "./components/NewUser.jsx";
 
 function DashboardHome() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -29,26 +28,34 @@ function DashboardHome() {
       <div className="grid grid-cols-4">
         <div className="bg-midnight col-span-1 h-full container">
           <img className="" src={dashboard_img} alt="dashboard-icon" />
-          <div className="items-left flex">
+          <div className="items-left flex my-10">
             <Tabs
               value={selectedTab}
-              style={{ color: "white", width: "100%", textAlign: "left" }}
+              style={{ color: "white", width: "100%", textAlign: "left",}}
               onChange={handleTabChange}
               orientation="vertical"
               variant="scrollable"
               scrollButtons="auto"
+              sx={{
+                '& .Mui-selected': {
+                  color: 'blue', // Set the text color for the active tab
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: 'white', // Set the background color for the active tab indicator
+                },
+              }}
             >
               <Tab
                 label="Overview"
-                style={{ color: "white", textAlign: "left" }}
+                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
               />
               <Tab
                 label="Entries"
-                style={{ color: "white", textAlign: "left" }}
+                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
               />
               <Tab
                 label="Users"
-                style={{ color: "white", textAlign: "left" }}
+                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
               />
             </Tabs>
           </div>
@@ -66,9 +73,7 @@ function DashboardHome() {
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="mx-auto pt-4 flex justify-start gap-3 p-3">
-                <PieChartWithText />
-                <PieChartWithText />
+              <div>
                 <PieChartWithText />
               </div>
               <div className="pt-4 flex justify-start gap-3 p-3">
@@ -90,9 +95,8 @@ function DashboardHome() {
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 flex justify-start gap-3 p-3">
+              <div className="pt-4 justify-start gap-3 p-3">
                 <EntriesRecords />
-                <CalendarSection />
               </div>
             </div>
           </div>
@@ -111,7 +115,7 @@ function DashboardHome() {
               </div>
               <div className="pt-4 justify-start gap-3 p-3">
                 <UserRecords />
-                <NewUser />
+               
               </div>
             </div>
           </div>

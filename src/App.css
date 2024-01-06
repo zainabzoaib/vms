@@ -29,13 +29,13 @@
 }
 
 .artwork-bg{
-  background-image: url('/src/Pages/artwork.png');
+  background-image: url('./Pages/assests/artwork.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
 }
 .frame-bg{
-  background-image: url('/src/Pages/Frame.png');
+  background-image: url('./Pages/assests/Frame.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

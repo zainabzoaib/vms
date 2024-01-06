@@ -6,13 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import RegisterEoi from './Pages/RegisterEoi';
 import LoginPage from './Pages/LoginPage';
 import DashboardHome from './Pages/DashboardHome'
-import Entries from './Pages/Entries';
-import Users from './Pages/Users';
-import PageAfterRegistration from './Pages/PageAfterRegistration';
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
+import QRCodePage from './Pages/Qrcode';
+import { createBrowserRouter, RouterProvider, BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 const router = createBrowserRouter([{
     path: "/",
@@ -25,17 +20,18 @@ const router = createBrowserRouter([{
     element: <LoginPage/>
 },
 {  path: "success",
-    element: <PageAfterRegistration/>
+    element: <QRCodePage/>
 },
 {  path: "dashboard",
     element: <DashboardHome/>
 },
-{  path: "dashboard/entries",
-    element: <Entries/>
-},
-{  path: "dashboard/users",
-    element: <Users/>
-},
+<Router>
+<Routes>
+  <Route path="/" element={<DashboardHome />} />
+  <Route path="/" element={<LoginPage />} />
+</Routes>
+</Router>
+
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render( <React.StrictMode>

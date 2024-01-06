@@ -1,8 +1,36 @@
-import React from "react";
-import Frame from "./Frame.png";
-import Company from "./Company.png";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Frame from "./assests/Frame.png";
+import Company from "./assests/Company.png";
 
-function LoginPage() {
+const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleClick = async () => {
+    try {
+      // Assuming you have an API endpoint for login
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Directly navigate to the Dashboard page upon successful login
+        navigate('/dashboard');
+      } else {
+        alert('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  };
   return (
     <section>
       <div className="md:column-1 bg-midnight items-center">
@@ -34,21 +62,20 @@ function LoginPage() {
               Visitors Management
             </button>
           </div>
-          <div class="container py-12">
+          <div className="container py-12">
             <h1 className="text-4xl">Login</h1>
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address
+              Username
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                type="text"
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <label
@@ -59,18 +86,15 @@ function LoginPage() {
             </label>
             <div className="mt-2">
               <input
-                id="password"
-                name="password"
                 type="password"
-                autoComplete=""
-                className="block w-full rounded-md border-0 py-1.5 text-gray shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={password} onChange={(e) => setPassword(e.target.value)} 
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
-            <button
-              type="submit"
+            <button type="button" onClick={handleClick}
               className="rounded-md bg-tahiti my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-metal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tahiti"
             >
-              SUBMIT
+              Login
             </button>
           </div>
         </div>
@@ -88,7 +112,7 @@ function LoginPage() {
         <div className="w-full h-full h-screen items-center">
           {/* Back button icon */}
           <div className="container py-12">
-            <button
+            {/* <button
               onClick=""
               className="flex hover:bg-blue-700 font-bold rounded w-full"
             >
@@ -107,10 +131,10 @@ function LoginPage() {
                 />
               </svg>
               Visitors Management
-            </button>
+            </button> */}
           </div>
           <div className="frame-bg">
-            <div class="container py-12 overlay-bg">
+            <div className="container py-12 overlay-bg">
               <h1 className="text-4xl">Login</h1>
               <label
                 htmlFor="email"
@@ -142,12 +166,12 @@ function LoginPage() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <button
+              {/* <button
                 type="submit"
                 className="rounded-md bg-tahiti my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-metal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tahiti"
               >
                 SUBMIT
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
