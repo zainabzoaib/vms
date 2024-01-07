@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import Company from "./assests/Company.png";
 import dashboard_img from "./assests/dashboard-icon.png";
-import { Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import SearchBar from "./components/SearchBar.jsx";
 import LogoutIconComponent from "./components/logout.jsx";
 import ProfileAvatarButton from "./components/ProfileAvatar.jsx";
@@ -12,6 +12,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import EntriesRecords from "./components/EntriesRecords.jsx";
 import UserRecords from "./components/UserRecords.jsx";
+import PrivateRoute from "./components/PrivateRoute";
+import LoginPage from "./LoginPage";
 
 function DashboardHome() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -22,6 +24,10 @@ function DashboardHome() {
 
   return (
     <section>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardHome />} />
+      </Routes>
       <div className="md:column-1 bg-midnight items-center">
         <img className="mx-auto pt-4" src={Company} alt="Logo" />;
       </div>
@@ -31,31 +37,46 @@ function DashboardHome() {
           <div className="items-left flex my-10">
             <Tabs
               value={selectedTab}
-              style={{ color: "white", width: "100%", textAlign: "left",}}
+              style={{ color: "white", width: "100%", textAlign: "left" }}
               onChange={handleTabChange}
               orientation="vertical"
               variant="scrollable"
               scrollButtons="auto"
               sx={{
-                '& .Mui-selected': {
-                  color: 'blue', // Set the text color for the active tab
+                "& .Mui-selected": {
+                  color: "blue", // Set the text color for the active tab
                 },
-                '& .MuiTabs-indicator': {
-                  backgroundColor: 'white', // Set the background color for the active tab indicator
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "white", // Set the background color for the active tab indicator
                 },
               }}
             >
               <Tab
                 label="Overview"
-                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  padding: "0",
+                }}
               />
               <Tab
                 label="Entries"
-                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  padding: "0",
+                }}
               />
               <Tab
                 label="Users"
-                style={{color:'white', textAlign: "left", alignItems: 'flex-start', padding:"0" }}
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  padding: "0",
+                }}
               />
             </Tabs>
           </div>
@@ -115,7 +136,6 @@ function DashboardHome() {
               </div>
               <div className="pt-4 justify-start gap-3 p-3">
                 <UserRecords />
-               
               </div>
             </div>
           </div>

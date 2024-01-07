@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Frame from "./assests/Frame.png";
 import Company from "./assests/Company.png";
+import { useAuth } from './components/AuthContext';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -24,6 +26,7 @@ const LoginPage = () => {
       if (data.success) {
         // Directly navigate to the Dashboard page upon successful login
         navigate('/dashboard');
+        login();
       } else {
         alert('Login failed. Please check your credentials.');
       }
