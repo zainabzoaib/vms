@@ -14,13 +14,15 @@ import EntriesRecords from "./components/EntriesRecords.jsx";
 import UserRecords from "./components/UserRecords.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 import LoginPage from "./LoginPage";
+//import DateFilter from "./components/dateFilter.jsx";
+
 
 function DashboardHome() {
   const [selectedTab, setSelectedTab] = useState(0);
-
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
 
   return (
     <section>
@@ -87,7 +89,6 @@ function DashboardHome() {
             <div className="grid bg-gray">
               <div className="container bg-white h-auto mx-auto p-4 flex ">
                 <div className="w-1/2">
-                  <SearchBar />
                 </div>
                 <div className="justify-end w-1/2 space-x-28 flex">
                   <ProfileAvatarButton />
@@ -110,6 +111,7 @@ function DashboardHome() {
               <div className="container bg-white h-auto mx-auto p-4 flex ">
                 <div className="w-1/2">
                   <SearchBar />
+                  {/* <DateFilter onDateChange={handleDateChange} /> */}
                 </div>
                 <div className="justify-end w-1/2 space-x-28 flex">
                   <ProfileAvatarButton />

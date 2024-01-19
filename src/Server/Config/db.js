@@ -138,32 +138,105 @@ app.get("/api/visitors-filter", (req, res) => {
     }
   });
 });
-//login code
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-  
-    // Query the database for the user with the provided credentials
-    db.query(
-      'SELECT username FROM users WHERE username = ? AND password = ?',
-      [username, password],
-      (err, results) => {
-        if (err) {
-          console.error('Error querying the database:', err);
-          res.status(500).json({ success: false, error: 'Internal Server Error' });
-          return;
-        }
-  
-        // Check if the query returned any results
-        if (results.length > 0) {
-          // If valid, send a success response with user details
-          res.json({ success: true, user: results[0] });
-        } else {
-          // If not valid, send a failure response
-          res.json({ success: false, error: 'Invalid credentials' });
-        }
-      }
-    );
+//visitors in a month
+app.get("/api/monthly-visitors", (req, res) => {
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1; // Months are zero-based
+  const currentYear = today.getFullYear();
+
+  const query = `
+    SELECT
+      COUNT(*) AS count
+    FROM
+      visitor_records
+    WHERE
+      MONTH(entry_date) = ${currentMonth} AND YEAR(entry_date) = ${currentYear}
+  `;
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching monthly visitor count from MySQL:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.json({ count: results[0].count });
+    }
   });
+});
+//login code
+app.post("/api/login", (req, res) => {
+  const { user, pass } = req.body;
+
+  // Query the database for the user with the provided credentials
+  db.query(
+    "SELECT username FROM users WHERE username = ? AND password = ?",
+    [user, pass],
+    (err, results) => {
+      if (err) {
+        console.error("Error querying the database:", err);
+        res
+          .status(500)
+          .json({ success: false, error: "Internal Server Error" });
+        return;
+      }
+
+      // Check if the query returned any results
+      if (results.length > 0) {
+        // If valid, send a success response with user details
+        results[0].token = "abcd1234";
+        res.json({ success: true, user: results[0] });
+      } else {
+        // If not valid, send a failure response
+        res.json({ success: false, error: "Invalid credentials" });
+      }
+    }
+  );
+});
+app.put('/api/users/:userId', (req, res) => {
+  const { userId } = req.params;
+  const updatedUser = req.body;
+
+  db.query('UPDATE users SET ? WHERE user_id = ?', [updatedUser, userId], (err, result) => {
+    if (err) {
+      console.error('Error updating user:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json({ message: 'User updated successfully', result });
+    }
+  });
+});
+// Endpoint to delete a user by user_id
+app.delete('/api/users/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  db.query('DELETE FROM users WHERE user_id = ?', userId, (err, result) => {
+    if (err) {
+      console.error('Error deleting user:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json({ message: 'User deleted successfully', result });
+    }
+  });
+});
+//calender filter
+app.get('/api/entries', (req, res) => {
+  const { date } = req.query;
+
+  // Check if the date parameter is provided
+  if (!date) {
+    return res.status(400).json({ error: 'Date parameter is required.' });
+  }
+
+  // Perform the query to fetch entries for the given date
+  const query = 'SELECT * FROM visitor_records WHERE DATE(entry_date) = ?';
+  db.query(query, [date], (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    res.json(results);
+  });
+});
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

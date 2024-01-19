@@ -1,31 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import NewUser from './NewUser';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import NewUser from "./NewUser";
+import axios from "axios";
+
 
 const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   const [user, setUsers] = useState([]);
   const [isDiv1Visible, setDiv1Visibility] = useState(true);
   const [isDiv2Visible, setDiv2Visibility] = useState(false);
+  const [editMode, setEditMode] = useState(null);
+  const [showAdditionalColumns, setShowAdditionalColumns] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users')
+    // axios
+    //   .get("http://localhost:5000/api/users")
+    //   .then((response) => {
+    //     setUsers(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching users:", error);
+    //   });
+    updateTable();
+  }, []);
+
+  const updateTable = () => {
+    axios
+      .get("http://localhost:5000/api/users")
       .then((response) => {
         setUsers(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       });
-  }, []);
+  };
 
   const showDiv1 = () => {
     setDiv1Visibility(true);
@@ -36,53 +52,169 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
     setDiv1Visibility(false);
     setDiv2Visibility(true);
   };
-  
+  const handleEditClick = (userId) => {
+    setEditMode(userId);
+    handleToggleColumns();
+  };
+  const handleToggleColumns = () => {
+    setShowAdditionalColumns((prevState) => !prevState);
+  };
+
+  const handleSaveClick = (userId) => {
+    // Find the user being edited
+    const editedUser = user.find((user) => user.user_id === userId);
+
+    // Make API request to update the user in the database
+    axios
+      .put(`http://localhost:5000/api/users/${userId}`, editedUser)
+      .then((response) => {
+        console.log("User updated successfully", response.data);
+        // Handle any other actions upon successful update
+        setEditMode(null);
+        updateTable(); // Exit edit mode
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleCancelClick = () => {
+    setEditMode(null);
+  };
+
+  const handleInputChange = (userId, columnName, value) => {
+    // Update the local state to reflect the change immediately
+    const updatedUsers = user.map((user) =>
+      user.id === userId ? { ...user, [columnName]: value } : user
+    );
+
+    setUsers(updatedUsers);
+  };
+  const handleDelete = (userId) => {
+    axios
+      .delete(`http://localhost:5000/api/users/${userId}`)
+      .then((response) => {
+        console.log("User deleted successfully", response.data);
+        updateTable();
+        // Optionally, update the local state or trigger a re-fetch
+        // setUsers(updatedUsers);
+      })
+      .catch((error) => console.error("Error deleting user:", error));
+  };
+
   return (
     <div>
-  {isDiv2Visible && (<div>  <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}><Button color="primary" onClick={showDiv1}>
-      Go back
-    </Button></div> <NewUser /></div>)}
-  {isDiv1Visible && (
-  <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}>
-    <Button color="primary" onClick={showDiv2}>
-      Add New User
-    </Button>
-  </div>
-    <Paper style={{ width: '100%', overflowX: 'auto' }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>User Name</TableCell>
-            <TableCell>Password</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {user.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell>{user.username}</TableCell>
-              <TableCell>{user.password}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
-                <IconButton color="primary" onClick={() => onEdit(user.id)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton color="secondary" onClick={() => onDelete(user.id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-</div>
-  )}
-</div>
+      {isDiv2Visible && (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "10px",
+            }}
+          >
+            <Button color="primary" onClick={showDiv1}>
+              Go back
+            </Button>
+          </div>
+          <NewUser />
+        </div>
+      )}
+      {isDiv1Visible && (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "10px",
+            }}
+          >
+            <Button color="primary" onClick={showDiv2}>
+              Add New User
+            </Button>
+          </div>
+          <Paper style={{ width: "100%", overflowX: "auto" }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>Password</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Role</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {user.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={user.username}
+                        onChange={(e) =>
+                          handleInputChange(user.id, "username", e.target.value)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="password"
+                        value={user.password}
+                        onChange={(e) =>
+                          handleInputChange(user.id, "password", e.target.value)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="email"
+                        value={user.email}
+                        onChange={(e) =>
+                          handleInputChange(user.id, "email", e.target.value)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {" "}
+                      <input
+                        type="text"
+                        value={user.role}
+                        onChange={(e) =>
+                          handleInputChange(user.id, "roles", e.target.value)
+                        }
+                      />
+                    </TableCell>
+
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        onClick={() => {handleEditClick(user.user_id);}}
+                       
+                      >
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleDelete(user.user_id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                    {showAdditionalColumns && (
+                      <TableCell>
+                        <button onClick={() => handleSaveClick(user.user_id)}>
+                          Save
+                        </button>
+                        <button onClick={handleCancelClick}>Cancel</button>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </div>
+      )}
+    </div>
   );
 };
 

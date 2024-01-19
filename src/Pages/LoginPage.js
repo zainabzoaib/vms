@@ -1,39 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+//import { useNavigate } from 'react-router-dom';
 import Frame from "./assests/Frame.png";
 import Company from "./assests/Company.png";
-import { useAuth } from './components/AuthContext';
+import { useAuth } from "./components/AuthProvider";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const handleClick = async () => {
-    try {
-      // Assuming you have an API endpoint for login
-      const response = await fetch('http://localhost:5000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Directly navigate to the Dashboard page upon successful login
-        navigate('/dashboard');
-        login();
-      } else {
-        alert('Login failed. Please check your credentials.');
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = useAuth();
+  const handleSubmitEvent = (e) => {
+    e.preventDefault();
+    if (username !== "" && password !== "") {
+      auth.loginAction(username, password);
+      return;
     }
+    alert("please provide a valid input");
   };
+
   return (
     <section>
       <div className="md:column-1 bg-midnight items-center">
@@ -67,38 +50,42 @@ const LoginPage = () => {
           </div>
           <div className="container py-12">
             <h1 className="text-4xl">Login</h1>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                type="text"
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Password
-            </label>
-            <div className="mt-2">
-              <input
-                type="password"
-                value={password} onChange={(e) => setPassword(e.target.value)} 
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-            <button type="button" onClick={handleClick}
-              className="rounded-md bg-tahiti my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-metal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tahiti"
-            >
-              Login
-            </button>
+            <form onSubmit={handleSubmitEvent}>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Username
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+              <div className="mt-2">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray placeholder:text-gray focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+              <button
+                type="submit"
+                className="rounded-md bg-tahiti my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-metal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tahiti"
+              >
+                Login
+              </button>
+            </form>
           </div>
         </div>
 
@@ -186,5 +173,5 @@ const LoginPage = () => {
       </div>
     </section>
   );
-}
+};
 export default LoginPage;
