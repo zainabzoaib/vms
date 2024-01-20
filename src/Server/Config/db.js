@@ -1,10 +1,12 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-
+const sgMail = require("@sendgrid/mail");
+const qrcode = require("qrcode");
+const nodemailer = require("nodemailer");
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -27,20 +29,6 @@ db.connect((err) => {
   } else {
     console.log("Database connected successfully");
   }
-});
-// Fetch visitor records by date
-app.get("/api/todays-visitor-records", (req, res) => {
-  const today = new Date().toISOString().split("T")[0];
-  const query = `SELECT COUNT(*) as count FROM visitor_records WHERE DATE(entry_date) = '${today}'`;
-
-  db.query(query, (error, results) => {
-    if (error) {
-      console.error("Error fetching today's visitor count from MySQL:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    } else {
-      res.json({ count: results[0].count });
-    }
-  });
 });
 //all visitors records
 app.get("/api/visitors", (req, res) => {
@@ -68,8 +56,60 @@ app.get("/api/users", (req, res) => {
     }
   });
 });
-//insert into visitors table
 
+const generateQRCode = async (data) => {
+  try {
+    const qrCodeDataUrl = await qrcode.toDataURL(data);
+    return qrCodeDataUrl;
+  } catch (error) {
+    console.error("Error generating QR code:", error);
+    throw error;
+  }
+};
+
+const sendEmailWithQRCode = async (recipientEmail, qrCodeDataUrl) => {
+  /* const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "zainab.zoaib@gmail.com", // Replace with your Gmail email
+      pass: "phytophora", // Replace with your Gmail app password
+    },
+  }); */
+  const transporter = nodemailer.createTransport({
+    host: "mail.parentechnology.com",
+    port: 465,
+    secure: true, // upgrade later with STARTTLS
+    auth: {
+      user: "zainab@parentechnology.com",
+      pass: "zainab123$",
+    },
+  });
+
+  const mailOptions = {
+    from: "zainab@parentechnology.com", // Replace with your Gmail email
+    to: recipientEmail,
+    subject: "QR Code for Registration",
+    text: "Scan the QR code to enter.",
+    html: `<p>Please find the attached QR code and get scanned on the gate for entry.</p>`,
+    attachments: [
+      {
+        filename: "qrcode.png",
+        content: qrCodeDataUrl.split(";base64,").pop(),
+        encoding: "base64",
+        cid: "qrcode_cid",
+      },
+    ],
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent with QR code");
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw error;
+  }
+};
+//insert into visitors table
 app.post("/api/visitor", (req, res) => {
   const { name, phone, email, purpose_of_visit, person_meeting } = req.body;
 
@@ -93,6 +133,18 @@ app.post("/api/visitor", (req, res) => {
       }
     }
   );
+  let formData = JSON.stringify({
+    Name: name,
+    Phone: phone,
+    Email: email,
+    PurposeOfVisit: purpose_of_visit,
+    PersonMeeting: person_meeting,
+  });
+  generateQRCode(formData)
+    .then((response) => {
+      sendEmailWithQRCode(email, response);
+    })
+    .catch((err) => console.log(err));
 });
 //insert into user records
 app.post("/api/user", (req, res) => {
@@ -115,33 +167,9 @@ app.post("/api/user", (req, res) => {
     }
   });
 });
-//filter visitor records
-app.get("/api/visitors-filter", (req, res) => {
-  const { name, date } = req.query;
-  let query = "SELECT * FROM visitor_records";
-
-  if (name) {
-    query += ` WHERE name LIKE '%${name}%'`;
-  }
-
-  if (date) {
-    // Assuming date is in a specific format, adjust as needed
-    query += ` AND DATE(entry_date) = '${date}'`;
-  }
-
-  db.query(query, (error, results) => {
-    if (error) {
-      console.error("Error fetching visitors from MySQL:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    } else {
-      res.json(results);
-    }
-  });
-});
-//visitors in a month
+//Chart data fetching
 app.get("/api/monthly-visitors", (req, res) => {
   const params = req.query;
-  console.log(params);
 
   let whereConditions = [];
   let selectConditions = [];
@@ -181,21 +209,6 @@ app.get("/api/monthly-visitors", (req, res) => {
     GROUP BY ${groupByClause}
   `;
 
-  console.log(query);
-  /* const query = `
-  SELECT 'Yearly' as period, COUNT(*) as count
-  FROM visitor_records
-  -- WHERE YEAR(entry_date) = 2023
-  WHERE YEAR(entry_date) = ${params.year}
-  
-  UNION
-  
-  SELECT 'Monthly' as period, COUNT(*) as count
-  FROM visitor_records
-  WHERE YEAR(entry_date) = ${params.year}
-    AND MONTH(entry_date) = ${params.month}
-  `; */
-
   db.query(query, (error, results) => {
     if (error) {
       console.error("Error fetching monthly visitor count from MySQL:", error);
@@ -221,7 +234,6 @@ app.post("/api/login", (req, res) => {
           .json({ success: false, error: "Internal Server Error" });
         return;
       }
-
       // Check if the query returned any results
       if (results.length > 0) {
         // If valid, send a success response with user details
@@ -229,11 +241,15 @@ app.post("/api/login", (req, res) => {
         res.json({ success: true, user: results[0] });
       } else {
         // If not valid, send a failure response
-        res.json({ success: false, error: "Invalid credentials" });
+        res.status(201).json({
+          message: "Invalid Credentials",
+          //   userId: result.insertId,
+        });
       }
     }
   );
 });
+//Update Users
 app.put("/api/users/:userId", (req, res) => {
   const { userId } = req.params;
   const updatedUser = req.body;
@@ -251,7 +267,7 @@ app.put("/api/users/:userId", (req, res) => {
     }
   );
 });
-// Endpoint to delete a user by user_id
+//Delete Users
 app.delete("/api/users/:userId", (req, res) => {
   const { userId } = req.params;
 
@@ -264,26 +280,7 @@ app.delete("/api/users/:userId", (req, res) => {
     }
   });
 });
-//calender filter
-app.get("/api/entries", (req, res) => {
-  const { date } = req.query;
-
-  // Check if the date parameter is provided
-  if (!date) {
-    return res.status(400).json({ error: "Date parameter is required." });
-  }
-
-  // Perform the query to fetch entries for the given date
-  const query = "SELECT * FROM visitor_records WHERE DATE(entry_date) = ?";
-  db.query(query, [date], (err, results) => {
-    if (err) {
-      console.error("Error executing MySQL query:", err);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-
-    res.json(results);
-  });
-});
+//Bar Chart Data Fill
 app.get("/api/yearlyData", (req, res) => {
   const query =
     "SELECT YEAR(entry_date) as year, COUNT(*) as totalRecords FROM visitor_records GROUP BY YEAR(entry_date)";
@@ -296,7 +293,27 @@ app.get("/api/yearlyData", (req, res) => {
     res.json(results);
   });
 });
-
+//Email Sender
+app.get("/api/sendemail", (req, res) => {
+  sgMail.setApiKey(
+    "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"
+  );
+  const msg = {
+    to: "", // Change to your recipient
+    from: "zainabzoaib94@gmail.com", // Change to your verified sender
+    subject: "Sending with SendGrid is Fun",
+    text: "and easy to do anywhere, even with Node.js",
+    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

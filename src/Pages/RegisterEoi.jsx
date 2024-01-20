@@ -19,7 +19,7 @@ const RegistrationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/api/visitor", {
+    fetch("http://window.location.href:5000/api/visitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,16 +30,6 @@ const RegistrationForm = () => {
       .then((data) => {
         alert("User added successfully");
         navigate('/success', { state: { formData: JSON.stringify(formData) } });
-        // Optionally, update the UI or show a success message
-       
-        // Clear the form data
-        // setFormData({
-        //   name: "",
-        //   phone: "",
-        //   email: "",
-        //   purpose_of_visit: "",
-        //   person_meeting: "",
-        // });
       })
       .catch((error) => {
         console.error("Error:", error);

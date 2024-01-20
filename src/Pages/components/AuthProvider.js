@@ -26,8 +26,9 @@ const AuthProvider = ({ children }) => {
         return;
       }
       throw new Error(res.message);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      alert("Invalid Credentials");
+      console.error("please provide a valid input", error);
     }
   };
 
