@@ -1,15 +1,38 @@
-import * as React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
+import React, { useState, useEffect } from "react";
+import {
+  BarChart as MuiBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import axios from "axios";
 
-export default function BasicBars() {
+const BarChart = (props) => {
+  const {title, data, xaxis, yaxis, tooltip} = props;
+
+  if (!data || data.length === 0) {
+    return <p>No data available.</p>;
+  }
   return (
-    <div className="bg-white">
-    <BarChart 
-      xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
-      series={[{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]}
-      width={575}
-      height={300}
-    />
-    </div>
+    <ResponsiveContainer width="60%" height={400}>
+      <MuiBarChart
+        data={data}
+        margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+      >
+        <XAxis dataKey={xaxis} />
+        <YAxis dataKey={yaxis} />
+        <Bar
+          key={xaxis}
+          dataKey={yaxis}
+          name={tooltip}
+          fill={"#8884d8"}
+        />
+      </MuiBarChart>
+    </ResponsiveContainer>
   );
-}
+};
+
+export default BarChart;

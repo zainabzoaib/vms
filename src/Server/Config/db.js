@@ -140,25 +140,68 @@ app.get("/api/visitors-filter", (req, res) => {
 });
 //visitors in a month
 app.get("/api/monthly-visitors", (req, res) => {
-  const today = new Date();
-  const currentMonth = today.getMonth() + 1; // Months are zero-based
-  const currentYear = today.getFullYear();
+  const params = req.query;
+  console.log(params);
+
+  let whereConditions = [];
+  let selectConditions = [];
+  let groupByConditions = [];
+
+  if (req.query.day) {
+    whereConditions.push(`DAY(entry_date) = ${params.day}`);
+  }
+
+  if (req.query.month) {
+    whereConditions.push(`MONTH(entry_date) = ${params.month}`);
+    selectConditions.push(`MONTH(entry_date) as month`);
+    groupByConditions.push(`MONTH(entry_date)`);
+  }
+
+  if (req.query.year) {
+    whereConditions.push(`YEAR(entry_date) = ${params.year}`);
+    selectConditions.push(`YEAR(entry_date) as year`);
+    groupByConditions.push(`YEAR(entry_date)`);
+  }
+
+  const whereClause =
+    whereConditions.length > 0 ? `WHERE ${whereConditions.join(" AND ")}` : "";
+
+  const selectClause =
+    selectConditions.length > 0 ? `${selectConditions.join(", ")}` : "";
+
+  const groupByClause =
+    groupByConditions.length > 0 ? `${groupByConditions.join(", ")}` : "";
 
   const query = `
-    SELECT
-      COUNT(*) AS count
-    FROM
-      visitor_records
-    WHERE
-      MONTH(entry_date) = ${currentMonth} AND YEAR(entry_date) = ${currentYear}
+    SELECT 
+    ${selectClause}
+    ,COUNT(*) as totalEntries
+    FROM visitor_records
+    ${whereClause}
+    GROUP BY ${groupByClause}
   `;
+
+  console.log(query);
+  /* const query = `
+  SELECT 'Yearly' as period, COUNT(*) as count
+  FROM visitor_records
+  -- WHERE YEAR(entry_date) = 2023
+  WHERE YEAR(entry_date) = ${params.year}
+  
+  UNION
+  
+  SELECT 'Monthly' as period, COUNT(*) as count
+  FROM visitor_records
+  WHERE YEAR(entry_date) = ${params.year}
+    AND MONTH(entry_date) = ${params.month}
+  `; */
 
   db.query(query, (error, results) => {
     if (error) {
       console.error("Error fetching monthly visitor count from MySQL:", error);
       res.status(500).json({ error: "Internal Server Error" });
     } else {
-      res.json({ count: results[0].count });
+      res.json({ count: results });
     }
   });
 });
@@ -191,47 +234,63 @@ app.post("/api/login", (req, res) => {
     }
   );
 });
-app.put('/api/users/:userId', (req, res) => {
+app.put("/api/users/:userId", (req, res) => {
   const { userId } = req.params;
   const updatedUser = req.body;
 
-  db.query('UPDATE users SET ? WHERE user_id = ?', [updatedUser, userId], (err, result) => {
-    if (err) {
-      console.error('Error updating user:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      res.json({ message: 'User updated successfully', result });
+  db.query(
+    "UPDATE users SET ? WHERE user_id = ?",
+    [updatedUser, userId],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating user:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.json({ message: "User updated successfully", result });
+      }
     }
-  });
+  );
 });
 // Endpoint to delete a user by user_id
-app.delete('/api/users/:userId', (req, res) => {
+app.delete("/api/users/:userId", (req, res) => {
   const { userId } = req.params;
 
-  db.query('DELETE FROM users WHERE user_id = ?', userId, (err, result) => {
+  db.query("DELETE FROM users WHERE user_id = ?", userId, (err, result) => {
     if (err) {
-      console.error('Error deleting user:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error deleting user:", err);
+      res.status(500).json({ error: "Internal Server Error" });
     } else {
-      res.json({ message: 'User deleted successfully', result });
+      res.json({ message: "User deleted successfully", result });
     }
   });
 });
 //calender filter
-app.get('/api/entries', (req, res) => {
+app.get("/api/entries", (req, res) => {
   const { date } = req.query;
 
   // Check if the date parameter is provided
   if (!date) {
-    return res.status(400).json({ error: 'Date parameter is required.' });
+    return res.status(400).json({ error: "Date parameter is required." });
   }
 
   // Perform the query to fetch entries for the given date
-  const query = 'SELECT * FROM visitor_records WHERE DATE(entry_date) = ?';
+  const query = "SELECT * FROM visitor_records WHERE DATE(entry_date) = ?";
   db.query(query, [date], (err, results) => {
     if (err) {
-      console.error('Error executing MySQL query:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error executing MySQL query:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    res.json(results);
+  });
+});
+app.get("/api/yearlyData", (req, res) => {
+  const query =
+    "SELECT YEAR(entry_date) as year, COUNT(*) as totalRecords FROM visitor_records GROUP BY YEAR(entry_date)";
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
 
     res.json(results);

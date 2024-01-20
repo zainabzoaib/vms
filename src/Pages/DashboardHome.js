@@ -1,28 +1,158 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Company from "./assests/Company.png";
 import dashboard_img from "./assests/dashboard-icon.png";
 import { Routes, Route } from "react-router-dom";
-import SearchBar from "./components/SearchBar.jsx";
 import LogoutIconComponent from "./components/logout.jsx";
 import ProfileAvatarButton from "./components/ProfileAvatar.jsx";
 import PieChartWithText from "./components/PieChartsRow.jsx";
 import Barchart from "./components/BarChart.jsx";
-import CalendarSection from "./components/Calendar.jsx";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import EntriesRecords from "./components/EntriesRecords.jsx";
 import UserRecords from "./components/UserRecords.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 import LoginPage from "./LoginPage";
-//import DateFilter from "./components/dateFilter.jsx";
-
+import axios from "axios";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 
 function DashboardHome() {
+  const [barChartData, setBarChartData] = useState([]);
+  //const COLORS = ["#0088FE", "#00C49F"];
+  const [pieChartDailyData, setPieChartDailyData] = useState(0);
+  const [pieChartMonthlyData, setPieChartMonthlyData] = useState(0);
+  const [pieChartYearlyData, setPieChartYearlyData] = useState(0);
+  const [totalDailyVisitors, setTotalDailyVisitors] = useState(0);
+  const [totalMonthlyVisitors, setTotalMonthlyVisitors] = useState(0);
+  const [totalYearlyVisitors, setTotalYearlyVisitors] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedDate, setSelectedDate] = useState();
+
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  // const changeDate = (event) => {
+  //   const selectedDate = new Date(event.$d);
+  //   console.log(selectedDate);
+  // };
+  useEffect(() => {
+    fetchData();
+  }, [selectedDate]);
+
+  const fetchData = async () => {
+    const today = selectedDate ? new Date(selectedDate) : new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const date = today.getDate();
+    const dateParams = date ? "day=" + date + "&" : "";
+    const monthParams = month ? "month=" + month + "&" : "";
+    const yearParams = year ? "year=" + year : "";
+    // Fetch yearly visitor data when the component mounts
+    console.log(month);
+    console.log(year);
+    console.log(date);
+    axios
+      .get("http://localhost:5000/api/yearlyData")
+      .then((response) => {
+        setBarChartData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching yearly visitors:", error);
+      });
+    const queryParams = dateParams + monthParams + yearParams;
+    axios
+      .get("http://localhost:5000/api/monthly-visitors?" + queryParams)
+      .then((response) => {
+        let total_Daily = 0;
+        if (response.data.count.length > 0) {
+          total_Daily = response.data.count[0].totalEntries;
+        }
+        setTotalDailyVisitors(total_Daily);
+        let chartData_Daily = [];
+        chartData_Daily.push({
+          label: "",
+          count:
+            response.data.count.length > 0
+              ? response.data.count[0].totalEntries
+              : 0,
+        });
+        chartData_Daily.push({
+          label: "",
+          count:
+            100 -
+            (response.data.count.length > 0
+              ? response.data.count[0].totalEntries
+              : 0),
+        });
+        setPieChartDailyData(chartData_Daily);
+      })
+      .catch((error) => {
+        console.error("Error fetching today's visitor count:", error);
+      });
+    console.log(monthParams);
+    console.log(yearParams);
+    const queryParams2 = monthParams + yearParams;
+    axios
+      .get("http://localhost:5000/api/monthly-visitors?" + queryParams2)
+      .then((response) => {
+        const data = response.data.count;
+        let total_Monthly = 0;
+        if (data.length > 0) {
+          total_Monthly = data[0].totalEntries;
+        }
+        let chartData_Monthly = [];
+        console.log(total_Monthly);
+        chartData_Monthly.push({
+          label: "",
+          count:
+            response.data.count.length > 0
+              ? response.data.count[0].totalEntries
+              : 0,
+        });
+        chartData_Monthly.push({
+          label: "",
+          count:
+            100 -
+            (response.data.count.length > 0
+              ? response.data.count[0].totalEntries
+              : 0),
+        });
+        setPieChartMonthlyData(chartData_Monthly);
+        setTotalMonthlyVisitors(total_Monthly);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    const queryParams3 = yearParams;
+    axios
+      .get("http://localhost:5000/api/monthly-visitors?" + queryParams3)
+      .then((response) => {
+        const data = response.data.count;
+        let chartData_Yearly = [];
+        chartData_Yearly.push({
+          label: "",
+          count: data[0].totalEntries,
+        });
+        chartData_Yearly.push({
+          label: "",
+          count: 100 - data[0].totalEntries,
+        });
+        setPieChartYearlyData(chartData_Yearly);
+        const total_Yearly = data[0].totalEntries;
+        setTotalYearlyVisitors(total_Yearly);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
 
   return (
     <section>
@@ -88,19 +218,55 @@ function DashboardHome() {
           <div className="w-auto col-span-3 items-start h-full">
             <div className="grid bg-gray">
               <div className="container bg-white h-auto mx-auto p-4 flex ">
-                <div className="w-1/2">
-                </div>
+                <div className="w-1/2"></div>
                 <div className="justify-end w-1/2 space-x-28 flex">
                   <ProfileAvatarButton />
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div>
-                <PieChartWithText />
+              <div className="mx-auto pt-4 flex justify-start gap-3 p-3">
+                <PieChartWithText
+                  title="Daily Visitors"
+                  total={totalDailyVisitors}
+                  data={pieChartDailyData}
+                  datakey="count"
+                />
+                <PieChartWithText
+                  title="Monthly Visitors"
+                  total={totalMonthlyVisitors}
+                  data={pieChartMonthlyData}
+                  datakey="count"
+                />
+                <PieChartWithText
+                  colors={["red", "blue", "green"]}
+                  title="Yearly Visitors"
+                  total={totalYearlyVisitors}
+                  data={pieChartYearlyData}
+                  datakey="count"
+                />
               </div>
               <div className="pt-4 flex justify-start gap-3 p-3">
-                <Barchart />
-                <CalendarSection />
+                <Barchart
+                  title=""
+                  data={barChartData}
+                  xaxis="year"
+                  yaxis="totalRecords"
+                  tooltip="Total Records:"
+                />
+                <div className="bg-white p-3">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      components={["DateCalendar", "DateCalendar"]}
+                    >
+                      <DemoItem label="Filter By Date">
+                        <DateCalendar
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </div>
               </div>
             </div>
           </div>
@@ -110,8 +276,6 @@ function DashboardHome() {
             <div className="grid bg-gray">
               <div className="container bg-white h-auto mx-auto p-4 flex ">
                 <div className="w-1/2">
-                  <SearchBar />
-                  {/* <DateFilter onDateChange={handleDateChange} /> */}
                 </div>
                 <div className="justify-end w-1/2 space-x-28 flex">
                   <ProfileAvatarButton />
@@ -129,7 +293,6 @@ function DashboardHome() {
             <div className="grid bg-gray">
               <div className="container bg-white h-auto mx-auto p-4 flex ">
                 <div className="w-1/2">
-                  <SearchBar />
                 </div>
                 <div className="justify-end w-1/2 space-x-28 flex">
                   <ProfileAvatarButton />
