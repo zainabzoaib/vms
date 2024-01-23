@@ -191,13 +191,12 @@ function DashboardHome() {
             alt="Logo"
           />
         </div>
-        <div className="container justify-end mx-auto w-full flex">
+        <div className="justify-end w-full flex">
           {isMobileOrTablet && (
             <IconButton
-              color="inherit"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 1 }}
+              sx={{ mr: 1, color:'white' }}
             >
               <MenuIcon />
             </IconButton>

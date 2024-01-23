@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "./assests/Company.png";
 import artwork from "./assests/artwork.png";
 import { useNavigate } from "react-router-dom";
+import { TextField, Button, Grid } from "@mui/material";
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -28,7 +29,7 @@ const RegistrationForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        alert("User added successfully");
+        // alert("User added successfully");
         navigate("/success", { state: { formData: JSON.stringify(formData) } });
       })
       .catch((error) => {
@@ -66,103 +67,169 @@ const RegistrationForm = () => {
               REGISTRATION FORM
             </h1>
             <form onSubmit={handleSubmit}>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Name
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  class="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Phone
-              </label>
-              <div className="mt-1">
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  required="required"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-
-              <label
-                htmlFor="person_meeting"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Person Meeting
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="person_meeting"
-                  id="person_meeting"
-                  required
-                  value={formData.person_meeting}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="purpose_of_visit"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Purpose of visit
-              </label>
-              <div className="mt-1">
-                <textarea
-                  type="text"
-                  name="purpose_of_visit"
-                  id="purpose_of_visit"
-                  required
-                  value={formData.purpose_of_visit}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <button
+            <TextField
+              label="Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                sx: {
+                  borderRadius: '15px', // Rounded corners
+                  height: "15px", // Smaller height
+                  width: '550px',
+                  padding: '15px 12px',
+                  borderColor: "grey", // Black border color
+                  "&:hover": {
+                    borderColor: "grey", // Change border color on hover if needed
+                  },
+                },
+              }}
+              />
+             <TextField
+              label="Phone Number (04XX XXX XXX)"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '[0-9]{4}-[0-9]{3}-[0-9]{3}',
+                inputMode: 'numeric',
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '550px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <TextField
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '550px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <TextField
+              label="Name the person meeting"
+              name="person_meeting"
+              value={formData.person_meeting}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "16px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '550px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+              <TextField
+              label="Mention the reason to visit"
+              name="purpose_of_visit"
+              value={formData.purpose_of_visit}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "16px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '60px', // Smaller height
+                    width: '550px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <Grid item xs={12}>
+              <Button
                 type="submit"
-                className="rounded-md bg-red my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-margenta"
+                variant="contained"
+                size="large"
+                sx={{
+                  mt: 3,
+                  width: "18%",
+                  borderRadius: "5px",
+                  backgroundColor: "#f28e3c", // Normal background color
+                  "&:hover": {
+                    backgroundColor: "#a12b63", // Background color on hover
+                  },
+                }}
               >
                 SUBMIT
-              </button>
+              </Button>
+            </Grid>
             </form>
           </div>
         </div>
@@ -182,103 +249,169 @@ const RegistrationForm = () => {
               REGISTRATION FORM
             </h1>
             <form onSubmit={handleSubmit}>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Name
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  class="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Phone
-              </label>
-              <div className="mt-1">
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  required="required"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-
-              <label
-                htmlFor="person_meeting"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Person Meeting
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="person_meeting"
-                  id="person_meeting"
-                  required
-                  value={formData.person_meeting}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <label
-                htmlFor="purpose_of_visit"
-                className="block text-sm font-medium leading-6 text-gray-900 mt-3"
-              >
-                Purpose of visit
-              </label>
-              <div className="mt-1">
-                <textarea
-                  type="text"
-                  name="purpose_of_visit"
-                  id="purpose_of_visit"
-                  required
-                  value={formData.purpose_of_visit}
-                  onChange={handleChange}
-                  autoComplete="off"
-                  className="form-input px-4 py-1.5 rounded-md border-lightGrey w-full"
-                />
-              </div>
-              <button
+            <TextField
+              label="Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                sx: {
+                  borderRadius: '15px', // Rounded corners
+                  height: "15px", // Smaller height
+                  width: '300px',
+                  padding: '15px 12px',
+                  borderColor: "grey", // Black border color
+                  "&:hover": {
+                    borderColor: "grey", // Change border color on hover if needed
+                  },
+                },
+              }}
+              />
+             <TextField
+              label="Phone Number (04XX XXX XXX)"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '[0-9]{4}-[0-9]{3}-[0-9]{3}',
+                inputMode: 'numeric',
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '300px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <TextField
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "10px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '300px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <TextField
+              label="Name the person meeting"
+              name="person_meeting"
+              value={formData.person_meeting}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "16px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '15px', // Smaller height
+                    width: '300px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+              <TextField
+              label="Mention the reason to visit"
+              name="purpose_of_visit"
+              value={formData.purpose_of_visit}
+              onChange={handleChange}
+              margin="normal"
+              variant="outlined"
+              required
+              InputLabelProps={{
+                sx: {
+                  fontSize: "14px",
+                  lineHeight: "16px",
+                  color: "light-grey",
+                },
+              }}
+              inputProps={{
+                pattern: '^[a-zA-Z ]+$', 
+                  sx: {
+                    borderRadius: '15px', // Rounded corners
+                    height: '60px', // Smaller height
+                    width: '300px',
+                    padding: '15px 12px',
+                    borderColor: "grey", // Black border color
+                    "&:hover": {
+                      borderColor: "grey", // Change border color on hover if needed
+                    },
+                  },
+                }}
+              />
+             <Grid item xs={12}>
+              <Button
                 type="submit"
-                className="rounded-md bg-red my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-margenta"
+                variant="contained"
+                size="large"
+                sx={{
+                  mt: 3,
+                  width: "30%",
+                  borderRadius: "5px",
+                  backgroundColor: "#f28e3c", // Normal background color
+                  "&:hover": {
+                    backgroundColor: "#a12b63", // Background color on hover
+                  },
+                }}
               >
                 SUBMIT
-              </button>
+              </Button>
+            </Grid>
             </form>
             </div>
           </div>

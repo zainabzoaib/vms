@@ -99,7 +99,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       {isDiv2Visible && (
         <div>
           <div
