@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify({ user: username, pass: password }),
       });
       const res = await response.json();
-      console.log(res);
+      // console.log(res);
       if (res) {
         setUser(res.user);
         setToken(res.user.token);

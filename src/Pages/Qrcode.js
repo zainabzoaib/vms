@@ -1,6 +1,6 @@
 import React from "react";
 //import code from "./assests/QR-code.png";
-import Company from "./assests/Company.png";
+import Logo from "./assests/Company.png";
 import { useLocation, Link  } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 
@@ -17,8 +17,8 @@ const QRCodePage = () => {
   }
   return (
     <section>
-      <div className="md:column-1 bg-midnight items-center">
-        <img className="mx-auto pt-4" src={Company} alt="Logo" />;
+      <div className="md:column-1 bg-red items-center">
+        <img className="mx-auto pt-4 w-64" src={Logo} alt="Logo" />;
       </div>
       {/* desktop view */}
       <div className="md:columns-1 md:block items-center">
@@ -28,11 +28,11 @@ const QRCodePage = () => {
             <p className="text-center">
               Please Scan QR code for simple gate entry.
             </p>
-            <QRCode className="mx-auto mt-8" value={JSON.stringify(formData)} size={400}/>
+            <QRCode className="mx-auto mt-8" value={JSON.stringify(formData)} size={300}/>
           </div>
         </div>
       </div>
-      <div className="md:column-2 bg-midnight items-center">
+      <div className="md:column-2 bg-red items-center">
         <div className="text-white text-center py-4">
           <p> © Zainab & keerthika 2023. All right reserved</p>
         </div>

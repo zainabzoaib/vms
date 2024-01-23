@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import Company from "./assests/Company.png";
+import Logo from "./assests/Company.png";
 import dashboard_img from "./assests/dashboard-icon.png";
 import { Routes, Route } from "react-router-dom";
 import LogoutIconComponent from "./components/logout.jsx";
@@ -17,6 +17,18 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import Button from "@mui/material/Button";
+import {
+  useTheme,
+  useMediaQuery,
+  Drawer,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function DashboardHome() {
   const [barChartData, setBarChartData] = useState([]);
@@ -29,13 +41,26 @@ function DashboardHome() {
   const [totalYearlyVisitors, setTotalYearlyVisitors] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedDate, setSelectedDate] = useState();
+  const theme = useTheme();
+  const isMobileOrTablet = useMediaQuery('(max-width: 960px)');
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isCalendarOpen, setCalendarOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!isDrawerOpen);
+  };
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    setDrawerOpen(false);
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+
+  const handleButtonClick = () => {
+    setCalendarOpen(!isCalendarOpen);
   };
 
   // const changeDate = (event) => {
@@ -55,9 +80,7 @@ function DashboardHome() {
     const monthParams = month ? "month=" + month + "&" : "";
     const yearParams = year ? "year=" + year : "";
     // Fetch yearly visitor data when the component mounts
-    console.log(month);
-    console.log(year);
-    console.log(date);
+
     axios
       .get("http://localhost:5000/api/yearlyData")
       .then((response) => {
@@ -96,8 +119,8 @@ function DashboardHome() {
       .catch((error) => {
         console.error("Error fetching today's visitor count:", error);
       });
-    console.log(monthParams);
-    console.log(yearParams);
+    // console.log(monthParams);
+    // console.log(yearParams);
     const queryParams2 = monthParams + yearParams;
     axios
       .get("http://localhost:5000/api/monthly-visitors?" + queryParams2)
@@ -108,7 +131,7 @@ function DashboardHome() {
           total_Monthly = data[0].totalEntries;
         }
         let chartData_Monthly = [];
-        console.log(total_Monthly);
+        // console.log(total_Monthly);
         chartData_Monthly.push({
           label: "",
           count:
@@ -160,11 +183,107 @@ function DashboardHome() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardHome />} />
       </Routes>
-      <div className="md:column-1 bg-midnight items-center">
-        <img className="mx-auto pt-4" src={Company} alt="Logo" />;
+      <div className="column-1 bg-red items-center flex md:block w-screen">
+        <div className="w-full">
+          <img
+            className="mx-auto md:pt-4 py-4 md:w-64 w-96"
+            src={Logo}
+            alt="Logo"
+          />
+        </div>
+        <div className="container justify-end mx-auto w-full flex">
+          {isMobileOrTablet && (
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 1 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Drawer
+            anchor="left"
+            open={isDrawerOpen}
+            onClose={handleDrawerToggle}
+            sx={{
+              width: "100%", // Set the width to full width
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: "100%",
+                backgroundColor: "#f28e3c", // Set the background color
+                color: "white", // Set the text color
+                boxSizing: "border-box",
+              },
+            }}
+          >
+            {/* Close button */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "8px",
+              }}
+            >
+              <IconButton color="#000000" onClick={handleDrawerToggle}>
+                <MenuIcon />
+              </IconButton>
+            </div>
+
+            {/* Your Logo */}
+            <div style={{ textAlign: "center", padding: "16px" }}>
+              <img src={dashboard_img} alt="Logo" />
+            </div>
+
+            <Tabs
+              orientation="vertical"
+              value={selectedTab}
+              onChange={handleTabChange}
+              indicatorColor="primary"
+              style={{ color: "white", width: "100%", textAlign: "left" }}
+              sx={{
+                "& .Mui-selected": {
+                  color: "blue", // Set the text color for the active tab
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "white", // Set the background color for the active tab indicator
+                },
+              }}
+            >
+              <Tab
+                label="Overview"
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  paddingLeft: "40",
+                }}
+              />
+              <Tab
+                label="Visitor Entries"
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  paddingLeft: "40",
+                }}
+              />
+              <Tab
+                label="User Records"
+                style={{
+                  color: "white",
+                  textAlign: "left",
+                  alignItems: "flex-start",
+                  paddingLeft: "40",
+                }}
+              />
+              {/* Add more tabs as needed */}
+            </Tabs>
+          </Drawer>
+        </div>
       </div>
-      <div className="grid grid-cols-4">
-        <div className="bg-midnight col-span-1 h-full container">
+      <div className="grid md:grid-cols-4 grid-cols-1">
+        <div className="bg-red md:col-span-1 md:block hidden h-full container">
           <img className="" src={dashboard_img} alt="dashboard-icon" />
           <div className="items-left flex my-10">
             <Tabs
@@ -193,7 +312,7 @@ function DashboardHome() {
                 }}
               />
               <Tab
-                label="Entries"
+                label="Visitor Entries"
                 style={{
                   color: "white",
                   textAlign: "left",
@@ -202,7 +321,7 @@ function DashboardHome() {
                 }}
               />
               <Tab
-                label="Users"
+                label="User Records"
                 style={{
                   color: "white",
                   textAlign: "left",
@@ -215,16 +334,34 @@ function DashboardHome() {
           {/* Render different content based on the selected tab */}
         </div>
         {selectedTab === 0 && (
-          <div className="w-auto col-span-3 items-start h-full">
-            <div className="grid bg-gray">
-              <div className="container bg-white h-auto mx-auto p-4 flex ">
-                <div className="w-1/2"></div>
-                <div className="justify-end w-1/2 space-x-28 flex">
-                  <ProfileAvatarButton />
+          <div className="w-auto col-span-3 items-start h-full md:w-full">
+            <div className="bg-gray">
+              <div className="bg-white h-auto p-4 flex">
+                <div className="md:hidden">
+                  <Button
+                    startIcon={<CalendarTodayIcon sx={{ color: "#a12b63" }} />}
+                    onClick={handleButtonClick} style={{color: "#a12b63" }}
+                  >
+                    Filter
+                  </Button>
+                  {isCalendarOpen && (
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DateCalendar"]}>
+                        <DemoItem label="Filter By Date">
+                          <DateCalendar
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                          />
+                        </DemoItem>
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  )}
+                </div>
+                <div className="justify-end w-full flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="mx-auto pt-4 flex justify-start gap-3 p-3">
+              <div className="w-full md:flex block justify-start p-1">
                 <PieChartWithText
                   title="Daily Visitors"
                   total={totalDailyVisitors}
@@ -245,7 +382,7 @@ function DashboardHome() {
                   datakey="count"
                 />
               </div>
-              <div className="pt-4 flex justify-start gap-3 p-3">
+              <div className="pt-4 md:flex block justify-start gap-3 p-3">
                 <Barchart
                   title=""
                   data={barChartData}
@@ -253,11 +390,9 @@ function DashboardHome() {
                   yaxis="totalRecords"
                   tooltip="Total Records:"
                 />
-                <div className="bg-white p-3">
+                <div className="bg-white p-3 hidden md:block">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer
-                      components={["DateCalendar", "DateCalendar"]}
-                    >
+                    <DemoContainer components={["DateCalendar"]}>
                       <DemoItem label="Filter By Date">
                         <DateCalendar
                           value={selectedDate}
@@ -274,15 +409,12 @@ function DashboardHome() {
         {selectedTab === 1 && (
           <div className="w-auto col-span-3 items-start h-full">
             <div className="grid bg-gray">
-              <div className="container bg-white h-auto mx-auto p-4 flex ">
-                <div className="w-1/2">
-                </div>
-                <div className="justify-end w-1/2 space-x-28 flex">
-                  <ProfileAvatarButton />
+              <div className="bg-white h-auto p-4 flex">
+                <div className="justify-end w-full flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3">
+              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
                 <EntriesRecords />
               </div>
             </div>
@@ -291,22 +423,19 @@ function DashboardHome() {
         {selectedTab === 2 && (
           <div className="w-auto col-span-3 items-start h-full">
             <div className="grid bg-gray">
-              <div className="container bg-white h-auto mx-auto p-4 flex ">
-                <div className="w-1/2">
-                </div>
-                <div className="justify-end w-1/2 space-x-28 flex">
-                  <ProfileAvatarButton />
+              <div className="bg-white h-auto p-4 flex">
+                <div className="justify-end w-full space-x-28 flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3">
+              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
                 <UserRecords />
               </div>
             </div>
           </div>
         )}
       </div>
-      <div className="md:column-2 bg-midnight items-center">
+      <div className="md:column-2 bg-red items-center">
         <div className="text-white text-center py-4">
           <p> © Zainab & keerthika 2023. All right reserved</p>
         </div>

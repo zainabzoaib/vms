@@ -11,7 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NewUser from "./NewUser";
 import axios from "axios";
-
+import { ChevronLeft } from "@mui/icons-material";
 
 const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   const [user, setUsers] = useState([]);
@@ -94,26 +94,23 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
       .then((response) => {
         console.log("User deleted successfully", response.data);
         updateTable();
-        // Optionally, update the local state or trigger a re-fetch
-        // setUsers(updatedUsers);
       })
       .catch((error) => console.error("Error deleting user:", error));
   };
 
   return (
-    <div>
+    <div className="w-full">
       {isDiv2Visible && (
         <div>
           <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              padding: "10px",
-            }}
-          >
-            <Button color="primary" onClick={showDiv1}>
-              Go back
-            </Button>
+            className="flex md:justify-end md:px-10 p-2">
+            <button
+              className="flex items-center rounded-md bg-red my-5 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-magenta"
+              onClick={showDiv1}
+            >
+              <ChevronLeft />
+              <span className="ml-2">Go Back</span>
+            </button>
           </div>
           <NewUser />
         </div>
@@ -121,14 +118,12 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
       {isDiv1Visible && (
         <div>
           <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              padding: "10px",
-            }}
-          >
-            <Button color="primary" onClick={showDiv2}>
-              Add New User
+            className="flex md:justify-end justify-start p-0">
+            <Button
+              class="rounded-md bg-red my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-margenta"
+              onClick={showDiv2}
+            >
+              ADD NEW USER
             </Button>
           </div>
           <Paper style={{ width: "100%", overflowX: "auto" }}>
@@ -185,9 +180,10 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
 
                     <TableCell>
                       <IconButton
-                        color="primary"
-                        onClick={() => {handleEditClick(user.user_id);}}
-                       
+                        color="secondary"
+                        onClick={() => {
+                          handleEditClick(user.user_id);
+                        }}
                       >
                         <EditIcon />
                       </IconButton>

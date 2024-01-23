@@ -13,9 +13,9 @@ const LogoutIconComponent = () => {
   return (
     <LogoutIcon
       sx={{
-        fontSize: 28,
+        fontSize: 26,
         cursor: "pointer",
-        color: "#141763",
+        color: "#a12b63",
         marginTop: "10px",
       }}
       onClick={handleLogout}

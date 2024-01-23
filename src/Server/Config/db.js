@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const sgMail = require("@sendgrid/mail");
 const qrcode = require("qrcode");
 const nodemailer = require("nodemailer");
 const app = express();
@@ -293,27 +292,7 @@ app.get("/api/yearlyData", (req, res) => {
     res.json(results);
   });
 });
-//Email Sender
-app.get("/api/sendemail", (req, res) => {
-  sgMail.setApiKey(
-    "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"
-  );
-  const msg = {
-    to: "", // Change to your recipient
-    from: "zainabzoaib94@gmail.com", // Change to your verified sender
-    subject: "Sending with SendGrid is Fun",
-    text: "and easy to do anywhere, even with Node.js",
-    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-});
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

@@ -41,7 +41,7 @@
   background-size: contain;
 }
 .overlay-bg{
-  background-color:rgb(245 245 245 / 75%);
+  background-color:#ffffffd1;
   z-index: 10;
 }
 

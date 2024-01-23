@@ -11,40 +11,13 @@ import AuthProvider from "./Pages/components/AuthProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./Pages/components/PrivateRoute";
 
-// const router = createBrowserRouter([{
-//     path: "/",
-//     element: <App/>
-// },
-//   {  path: "register",
-//     element: <RegisterEoi/>
-// },
-// {  path: "login",
-//     element: <LoginPage/>
-// },
-// {  path: "success",
-//     element: <QRCodePage/>
-// },
-// {  path: "dashboard",
-//     element: <DashboardHome/>
-// },
-
-// ]);
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//     <React.StrictMode>
-//       <BrowserRouter>
-//         <AuthProvider>
-//           <App />
-//         </AuthProvider>
-//       </BrowserRouter>
-//     </React.StrictMode>,
-//   );
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="register" element={<RegisterEoi />} />
+          <Route path="registration" element={<RegisterEoi />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="success" element={<QRCodePage />} />
           <Route element={<PrivateRoute />}>

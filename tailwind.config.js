@@ -10,7 +10,7 @@ module.exports = {
       'sm': '576px',
       // => @media (min-width: 576px) { ... }
 
-      'md': '960px',
+      'md': '1200px',
       // => @media (min-width: 960px) { ... }
 
       'lg': '1440px',
@@ -29,12 +29,13 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
       'white': '#ffffff',
-      'purple': '#3f3cbb',
-      'midnight': '#121063',
-      'metal': '#565584',
-      'tahiti': '#3ab7bf',
-      'silver': '#ecebff',
-      'bubble-gum': '#ff77e9',
+      'dark-red': '#770906',
+      'text-red':'#dc1351',
+      'red': '#f28e3c',
+      'margenta': '#a12b63',
+      'lightGrey': '#bdbdbd',
+      'Light-orange': '#ff33330a',
+      'black': '#000000',
       'bermuda': '#E2E2EA',
       'gray':'#efefef',
     },
