@@ -24,7 +24,7 @@ function App() {
       <div className="column-1 bg-red items-center flex md:block w-screen">
         <div className="w-full">
           <img
-            className="mx-auto md:pt-4 py-4 md:w-64 w-96"
+            className="mx-auto md:pt-4 py-4 w-64"
             src={Logo}
             alt="Logo"
           />
@@ -33,17 +33,17 @@ function App() {
       <div className="bg-white">
         <AuthProvider>
           <div className="py-4">
-            <h1 className="text-4xl pt-8 font-bold text-center text-text-red">
+            <h1 className="md:text-4xl text-2xl pt-8 font-bold text-center text-text-red">
               WELCOME TO VISITORS MANAGEMENT SYSTEM
             </h1>
             <p className="text-1xl font-medium text-center pt-10">
               Follow few simple steps to visit people whenever you want!
             </p>
           </div>
-          <div className="grid grid-cols-3 md:flex block md:items-center md:justify-center space-x-24 w-full">
+          <div className="grid md:grid-cols-3 grid-cols-1 md:flex block md:items-center md:justify-center md:space-x-24 w-full">
             <div className="py-4">
               <img
-                className="mx-auto py-4 md:w-64 w-96"
+                className="mx-auto py-4 w-64"
                 src={register}
                 alt="Logo"
               />
@@ -59,7 +59,7 @@ function App() {
             </div>
             <div>
               <img
-                className="mx-auto py-4 md:w-64 w-96"
+                className="mx-auto py-4 w-64"
                 src={email}
                 alt="Logo"
               />
@@ -73,7 +73,7 @@ function App() {
             </div>
             <div>
               <img
-                className="mx-auto py-4 md:w-64 w-96"
+                className="mx-auto py-4 w-64"
                 src={scanQrcode}
                 alt="Logo"
               />
@@ -88,13 +88,13 @@ function App() {
               </p>
             </div>
           </div>
-          <div className="flex md:justify-center md:px-10 p-2">
+          <div className="flex justify-center md:px-10 p-2">
             <button className="flex items-center rounded-md bg-red my-5 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-magenta" onClick={handleOnClick}>
               <span className="ml-2">Click Here to Register </span>
               <ChevronRight />
             </button>
           </div>
-          <div className="flex md:justify-start md:px-20 md:py-4 p-2">
+          <div className="flex md:justify-start md:px-20 md:py-4 p-2 px-10">
             <p><b>Note:</b> For administration of the application please <a className="font-bold text-center text-text-red" href="#" onClick={Login}>click here</a> to login (for admins only). For any further inquiry or question please feel free to reach us on <b>example@test.com</b>. </p>
           </div>
         </AuthProvider>
