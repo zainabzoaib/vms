@@ -67,13 +67,6 @@ const generateQRCode = async (data) => {
 };
 
 const sendEmailWithQRCode = async (recipientEmail, qrCodeDataUrl) => {
-  /* const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "zainab.zoaib@gmail.com", // Replace with your Gmail email
-      pass: "phytophora", // Replace with your Gmail app password
-    },
-  }); */
   const transporter = nodemailer.createTransport({
     host: "mail.parentechnology.com",
     port: 465,
@@ -89,13 +82,16 @@ const sendEmailWithQRCode = async (recipientEmail, qrCodeDataUrl) => {
     to: recipientEmail,
     subject: "QR Code for Registration",
     text: "Scan the QR code to enter.",
-    html: `<p>Please find the attached QR code and get scanned on the gate for entry.</p>`,
+    html: `<p>Please find the attached QR code and get scanned on the gate for entry.</p>
+    <img src="cid:qrcode_cid" alt="QR Code" />`,
     attachments: [
       {
         filename: "qrcode.png",
         content: qrCodeDataUrl.split(";base64,").pop(),
         encoding: "base64",
         cid: "qrcode_cid",
+        type: "image/png", // Specify the content type
+        disposition: "inline",
       },
     ],
   };

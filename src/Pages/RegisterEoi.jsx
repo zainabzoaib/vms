@@ -13,6 +13,10 @@ const RegistrationForm = () => {
   });
   const navigate = useNavigate();
 
+  const onImageClick=()=>{
+    navigate("/");
+  }
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -42,7 +46,7 @@ const RegistrationForm = () => {
   return (
     <section>
       <div className="md:column-1 bg-red md:items-center">
-        <img className="mx-auto pt-4 w-64" src={Logo} alt="Logo" />;
+        <img className="mx-auto pt-4 w-64" src={Logo} alt="Logo" onClick={onImageClick} />;
       </div>
       {/* desktop view */}
       <div className="md:columns-2 hidden md:flex md:items-center h-screen">
@@ -52,7 +56,7 @@ const RegistrationForm = () => {
               VISITORS MANAGEMENT SYSTEM
             </h1>
             <p className="text-1xl font-medium text-center">
-              Manage your project and team in easy way
+              Register here and book you slot today!
             </p>
             <img
               className="w-9/12 max-w-full mx-auto"

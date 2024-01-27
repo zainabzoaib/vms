@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Company from "./assests/Company.png";
 import Frame from "./assests/Frame.png";
 import { useAuth } from "./components/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -15,11 +16,14 @@ const LoginPage = () => {
     }
     alert("please provide a valid input");
   };
-
+  const navigate = useNavigate();
+  const onImageClick=()=>{
+    navigate("/");
+  }
   return (
     <section>
       <div className="md:column-1 bg-red items-center">
-        <img className="mx-auto pt-4 w-64" src={Company} alt="Logo" />;
+        <img className="mx-auto pt-4 w-64" src={Company} alt="Logo" onClick={onImageClick} />;
       </div>
       {/* desktop view */}
       <div className="md:columns-2 hidden md:block md:items-center h-screen md:flex ">

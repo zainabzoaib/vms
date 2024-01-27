@@ -7,11 +7,11 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import { ChevronLeft } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NewUser from "./NewUser";
 import axios from "axios";
-import { ChevronLeft } from "@mui/icons-material";
 
 const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   const [user, setUsers] = useState([]);

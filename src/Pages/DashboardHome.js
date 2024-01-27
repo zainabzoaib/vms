@@ -19,6 +19,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import {
   useTheme,
   useMediaQuery,
@@ -45,6 +46,11 @@ function DashboardHome() {
   const isMobileOrTablet = useMediaQuery('(max-width: 960px)');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isCalendarOpen, setCalendarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const onImageClick=()=>{
+    navigate("/");
+  }
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -189,6 +195,7 @@ function DashboardHome() {
             className="mx-auto md:pt-4 py-4 md:w-64 w-96"
             src={Logo}
             alt="Logo"
+            onClick={onImageClick}
           />
         </div>
         <div className="justify-end w-full flex">
