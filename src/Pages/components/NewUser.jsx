@@ -46,8 +46,8 @@ const NewUser = () => {
   return (
     <section className="bg-white">
       {/* desktop view */}
-      <div className="w-full h-full">
-        <div className="md:container p-8 md:block hidden">
+      <div className="flex items-center">
+        <div className="px-40 py-12 md:block hidden w-full">
           <h1 className="text-4xl">New User</h1>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -58,6 +58,7 @@ const NewUser = () => {
               margin="normal"
               variant="outlined"
               required
+              fullWidth
               InputLabelProps={{
                 sx: {
                   fontSize: "14px",
@@ -69,7 +70,6 @@ const NewUser = () => {
                 sx: {
                   borderRadius: "0.375rem", // Rounded corners
                   height: "40px", // Smaller height
-                  width: "600px",
                   padding: "15px 0px",
                   borderColor: "grey", // Black border color
                   "&:hover": {
@@ -82,11 +82,12 @@ const NewUser = () => {
             <TextField
               label="Password"
               name="password"
-              type="password"
+              type="text"
               value={formData.password}
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -99,7 +100,6 @@ const NewUser = () => {
                 sx: {
                   borderRadius: "0.375rem", // Rounded corners
                   height: "40px", // Smaller height
-                  width: "600px",
                   padding: "15px 0px",
                   borderColor: "grey", // Black border color
                   "&:hover": {
@@ -117,6 +117,7 @@ const NewUser = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -126,10 +127,10 @@ const NewUser = () => {
                 },
               }}
               InputProps={{
+                pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$',
                 sx: {
                   borderRadius: "0.375rem", // Rounded corners
                   height: "40px", // Smaller height
-                  width: "600px",
                   padding: "15px 0px",
                   borderColor: "grey", // Black border color
                   "&:hover": {
@@ -146,6 +147,7 @@ const NewUser = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -158,7 +160,6 @@ const NewUser = () => {
                 sx: {
                   borderRadius: "0.375rem", // Rounded corners
                   height: "40px", // Smaller height
-                  width: "600px",
                   padding: "15px 0px",
                   borderColor: "grey", // Black border color
                   "&:hover": {

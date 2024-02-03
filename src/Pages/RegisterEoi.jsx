@@ -33,12 +33,11 @@ const RegistrationForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // alert("User added successfully");
         navigate("/success", { state: { formData: JSON.stringify(formData) } });
       })
       .catch((error) => {
         console.error("Error:", error);
-        // Handle errors as needed
+       
       });
       
   };
@@ -67,10 +66,10 @@ const RegistrationForm = () => {
         </div>
         <div className="w-full md:items-center md:column-1 h-full flex ">
           <div class="container py-4">
-            <h1 className="text-3xl font-bold mb-8 text-text-red text-center">
+            <h1 className="text-3xl font-bold mb-8 text-text-red">
               REGISTRATION FORM
             </h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="pr-10">
             <TextField
               label="Name"
               name="name"
@@ -79,6 +78,7 @@ const RegistrationForm = () => {
               margin="normal"
               variant="outlined"
               required
+              fullWidth
               InputLabelProps={{
                 sx: {
                   fontSize: "14px",
@@ -89,13 +89,12 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                 sx: {
-                  borderRadius: '15px', // Rounded corners
-                  height: "15px", // Smaller height
-                  width: '550px',
+                  borderRadius: '15px',  
+                  height: "15px",   
                   padding: '15px 12px',
-                  borderColor: "grey", // Black border color
+                  borderColor: "grey",  
                   "&:hover": {
-                    borderColor: "grey", // Change border color on hover if needed
+                    borderColor: "grey",  
                   },
                 },
               }}
@@ -107,6 +106,7 @@ const RegistrationForm = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -116,16 +116,15 @@ const RegistrationForm = () => {
                 },
               }}
               inputProps={{
-                pattern: '[0-9]{4}-[0-9]{3}-[0-9]{3}',
+                pattern: '[0-9]{4}[0-9]{3}[0-9]{3}',
                 inputMode: 'numeric',
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
-                    width: '550px',
+                    borderRadius: '15px',  
+                    height: '15px',  
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -137,6 +136,7 @@ const RegistrationForm = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -146,14 +146,14 @@ const RegistrationForm = () => {
                 },
               }}
               inputProps={{
+                pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$',
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
-                    width: '550px',
+                    borderRadius: '15px',  
+                    height: '15px',   
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -165,6 +165,7 @@ const RegistrationForm = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -176,13 +177,12 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
-                    width: '550px',
+                    borderRadius: '15px',  
+                    height: '15px',   
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -194,6 +194,7 @@ const RegistrationForm = () => {
               onChange={handleChange}
               margin="normal"
               variant="outlined"
+              fullWidth
               required
               InputLabelProps={{
                 sx: {
@@ -205,13 +206,12 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '60px', // Smaller height
-                    width: '550px',
+                    borderRadius: '15px',  
+                    height: '60px',   
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -225,9 +225,9 @@ const RegistrationForm = () => {
                   mt: 3,
                   width: "18%",
                   borderRadius: "5px",
-                  backgroundColor: "#f28e3c", // Normal background color
+                  backgroundColor: "#f28e3c", 
                   "&:hover": {
-                    backgroundColor: "#a12b63", // Background color on hover
+                    backgroundColor: "#a12b63", 
                   },
                 }}
               >
@@ -271,13 +271,13 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                 sx: {
-                  borderRadius: '15px', // Rounded corners
-                  height: "15px", // Smaller height
+                  borderRadius: '15px',  
+                  height: "15px",   
                   width: '300px',
                   padding: '15px 12px',
-                  borderColor: "grey", // Black border color
+                  borderColor: "grey",  
                   "&:hover": {
-                    borderColor: "grey", // Change border color on hover if needed
+                    borderColor: "grey",  
                   },
                 },
               }}
@@ -301,13 +301,13 @@ const RegistrationForm = () => {
                 pattern: '[0-9]{4}-[0-9]{3}-[0-9]{3}',
                 inputMode: 'numeric',
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
+                    borderRadius: '15px',  
+                    height: '15px',   
                     width: '300px',
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -329,13 +329,13 @@ const RegistrationForm = () => {
               }}
               inputProps={{
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
+                    borderRadius: '15px',  
+                    height: '15px',   
                     width: '300px',
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -358,13 +358,13 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '15px', // Smaller height
+                    borderRadius: '15px',  
+                    height: '15px',   
                     width: '300px',
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -387,13 +387,13 @@ const RegistrationForm = () => {
               inputProps={{
                 pattern: '^[a-zA-Z ]+$', 
                   sx: {
-                    borderRadius: '15px', // Rounded corners
-                    height: '60px', // Smaller height
+                    borderRadius: '15px',  
+                    height: '60px',   
                     width: '300px',
                     padding: '15px 12px',
-                    borderColor: "grey", // Black border color
+                    borderColor: "grey",  
                     "&:hover": {
-                      borderColor: "grey", // Change border color on hover if needed
+                      borderColor: "grey",  
                     },
                   },
                 }}
@@ -407,9 +407,9 @@ const RegistrationForm = () => {
                   mt: 3,
                   width: "30%",
                   borderRadius: "5px",
-                  backgroundColor: "#f28e3c", // Normal background color
+                  backgroundColor: "#f28e3c",
                   "&:hover": {
-                    backgroundColor: "#a12b63", // Background color on hover
+                    backgroundColor: "#a12b63",
                   },
                 }}
               >

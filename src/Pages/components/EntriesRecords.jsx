@@ -3,14 +3,15 @@ import axios from "axios";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useTheme, useMediaQuery } from '@mui/material';
 
+
 const columns = [
-  { field: "record_id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 130 },
-  { field: "phone", headerName: "Phone", width: 130 },
-  { field: "email", headerName: "Email", width: 130 },
-  { field: "purpose_of_visit", headerName: "Person to Visit", width: 130 },
-  { field: "person_meeting", headerName: "Reason of Visit", width: 130 },
-  { field: "entry_date", headerName: "Date / Time", width: 130 },
+  { field: "record_id", headerName: "ID", width:70 },
+  { field: "name", headerName: "Name", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div>},
+  { field: "phone", headerName: "Phone", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div>},
+  { field: "email", headerName: "Email", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div> },
+  { field: "purpose_of_visit", headerName: "Person to Visit", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div> },
+  { field: "person_meeting", headerName: "Reason of Visit", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div> },
+  { field: "entry_date", headerName: "Date / Time", flex: 1, renderCell: (params) => <div style={{ whiteSpace: 'normal' }}>{params.value}</div> },
 ];
 const ResponsiveDataGrid = ({ visitors, columns }) => {
   const theme = useTheme();
@@ -46,10 +47,14 @@ const EntriesRecords = ({ entries }) => {
     fetchEntries();
   };
   return (
-    <div className="w-full">
+    <div className="w-full h-full" style={{width:'100%'}}>
       <DataGrid className="bg-white"
+        density="comfortable"
         rows={visitors}
         columns={columns}
+        getRowHeight={(params) => {
+          return Math.max('100%');
+        }}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
           toolbar: {
@@ -59,7 +64,7 @@ const EntriesRecords = ({ entries }) => {
         getRowId={(row) => row.record_id}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         pageSizeOptions={[5, 10]}
@@ -69,6 +74,7 @@ const EntriesRecords = ({ entries }) => {
           fixedHeader: true,
           selectableRows: false,
           displayRowCheckbox: false,
+         
         }}
       />
     </div>

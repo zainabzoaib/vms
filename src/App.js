@@ -20,7 +20,7 @@ function App() {
   }
 
   return (
-    <section>
+    <section className="h-screen">
       <div className="column-1 bg-red items-center flex md:block w-screen">
         <div className="w-full">
           <img
@@ -41,13 +41,13 @@ function App() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 grid-cols-1 md:flex block md:items-center md:justify-center md:space-x-24 w-full">
-            <div className="py-4">
+            <div>
               <img
                 className="mx-auto py-4 w-64"
                 src={register}
                 alt="Logo"
               />
-              <h1 className="text-2xl pt-8 font-bold text-center text-text-red">
+              <h1 className="text-2xl md:pt-2 font-bold text-center text-text-red">
                 STEP 01
               </h1>
               <p className="text-1xl font-light text-center">
@@ -57,13 +57,13 @@ function App() {
                 on registration page
               </p>
             </div>
-            <div>
+            <div className="pt-10 md:pt-0">
               <img
                 className="mx-auto py-4 w-64"
                 src={email}
                 alt="Logo"
               />
-              <h1 className="text-2xl pt-8 font-bold text-center text-text-red">
+              <h1 className="text-2xl md:pt-2 font-bold text-center text-text-red">
                 STEP 02
               </h1>
               <p className="text-1xl font-light text-center">
@@ -71,13 +71,13 @@ function App() {
               </p>
               <p className="text-1xl font-light text-center">for QR code</p>
             </div>
-            <div>
+            <div className="pt-10 md:pt-0">
               <img
                 className="mx-auto py-4 w-64"
                 src={scanQrcode}
                 alt="Logo"
               />
-              <h1 className="text-2xl pt-8 font-bold text-center text-text-red">
+              <h1 className="text-2xl md:pt-2 font-bold text-center text-text-red">
                 STEP 03
               </h1>
               <p className="text-1xl font-light text-center">
@@ -88,14 +88,14 @@ function App() {
               </p>
             </div>
           </div>
-          <div className="flex justify-center md:px-10 p-2">
+          <div className="flex justify-center py-4 pt-6">
             <button className="flex items-center rounded-md bg-red my-5 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-magenta" onClick={handleOnClick}>
               <span className="ml-2">Click Here to Register </span>
               <ChevronRight />
             </button>
           </div>
-          <div className="flex md:justify-start md:px-20 md:py-4 p-2 px-10">
-            <p><b>Note:</b> For administration of the application please <a className="font-bold text-center text-text-red" href="#" onClick={Login}>click here</a> to login (for admins only). For any further inquiry or question please feel free to reach us on <b>example@test.com</b>. </p>
+          <div className="flex md:justify-start md:px-20 md:py-4 items-center p-2">
+            <p><b>Note:</b> For administration of the application please <a className="font-bold text-center text-text-red" onClick={Login}>click here</a> to login (for admins only). For any further inquiry or question please feel free to reach us on <b>example@test.com</b>. </p>
           </div>
         </AuthProvider>
       </div>

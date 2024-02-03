@@ -1,11 +1,13 @@
 import React from "react";
 //import code from "./assests/QR-code.png";
 import Logo from "./assests/Company.png";
-import { useLocation, Link  } from 'react-router-dom';
+import { useLocation, Link, useNavigate  } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 
 const QRCodePage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  
   const formData = JSON.parse(location.state.formData);
   if (!formData) {
     return (
@@ -15,14 +17,20 @@ const QRCodePage = () => {
       </div>
     );
   }
+ 
+
+  const onImageClick=()=>{
+    navigate("/");
+  }
+
   return (
-    <section>
+    <section className="h-screen">
       <div className="md:column-1 bg-red items-center">
-        <img className="mx-auto pt-4 w-64" src={Logo} alt="Logo" />;
+        <img className="mx-auto pt-4 w-64" src={Logo} alt="Logo" onClick={onImageClick}/>;
       </div>
       {/* desktop view */}
-      <div className="md:columns-1 md:block items-center">
-        <div className="w-full h-full md:flex md:py-12 p-8">
+      <div className="md:columns-1 flex items-center h-full">
+        <div className="w-full block py-12 p-8">
           <div class="mx-auto">
             <h1 className="text-4xl text-center">Registration Successful</h1>
             <p className="text-center">

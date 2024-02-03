@@ -53,8 +53,9 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
     setDiv2Visibility(true);
   };
   const handleEditClick = (userId) => {
-    setEditMode(userId);
+    //setEditMode(userId);
     handleToggleColumns();
+    updateTable(); 
   };
   const handleToggleColumns = () => {
     setShowAdditionalColumns((prevState) => !prevState);
@@ -71,6 +72,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
         console.log("User updated successfully", response.data);
         // Handle any other actions upon successful update
         setEditMode(null);
+        handleToggleColumns();
         updateTable(); // Exit edit mode
       })
       .catch((error) => console.error(error));
@@ -78,6 +80,8 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
 
   const handleCancelClick = () => {
     setEditMode(null);
+    handleToggleColumns();
+    updateTable(); 
   };
 
   const handleInputChange = (userId, columnName, value) => {
@@ -99,26 +103,26 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white h-screen">
       {isDiv2Visible && (
-        <div>
+        <div className="h-screen">
           <div
             className="flex md:justify-end md:px-10 p-2">
             <button
-              className="flex items-center rounded-md bg-red my-5 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-magenta"
+              className="flex items-center rounded-md bg-red my-5 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-margenta"
               onClick={showDiv1}
             >
               <ChevronLeft />
               <span className="ml-2">Go Back</span>
             </button>
           </div>
-          <NewUser />
+          <NewUser/>
         </div>
       )}
       {isDiv1Visible && (
         <div>
           <div
-            className="flex md:justify-end justify-start p-0">
+            className="flex md:justify-end justify-start p-0 md:px-10">
             <Button
               class="rounded-md bg-red my-5 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-margenta"
               onClick={showDiv2}
@@ -173,7 +177,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
                         type="text"
                         value={user.role}
                         onChange={(e) =>
-                          handleInputChange(user.id, "roles", e.target.value)
+                          handleInputChange(user.id, "role", e.target.value)
                         }
                       />
                     </TableCell>
@@ -198,7 +202,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
                     {showAdditionalColumns && (
                       <TableCell>
                         <button onClick={() => handleSaveClick(user.user_id)}>
-                          Save
+                          Save / 
                         </button>
                         <button onClick={handleCancelClick}>Cancel</button>
                       </TableCell>

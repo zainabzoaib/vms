@@ -184,7 +184,7 @@ function DashboardHome() {
   };
 
   return (
-    <section>
+    <section className="h-screen">
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardHome />} />
@@ -288,8 +288,8 @@ function DashboardHome() {
           </Drawer>
         </div>
       </div>
-      <div className="grid md:grid-cols-4 grid-cols-1">
-        <div className="bg-red md:col-span-1 md:block hidden h-full container">
+      <div className="grid md:grid-cols-5 grid-cols-1">
+        <div className="bg-red md:col-span-1 md:block hidden container">
           <img className="" src={dashboard_img} alt="dashboard-icon" />
           <div className="items-left flex my-10">
             <Tabs
@@ -340,7 +340,7 @@ function DashboardHome() {
           {/* Render different content based on the selected tab */}
         </div>
         {selectedTab === 0 && (
-          <div className="w-auto col-span-3 items-start h-full md:w-full">
+          <div className="w-auto col-span-4 items-start h-full md:w-full">
             <div className="bg-gray">
               <div className="bg-white h-auto p-4 flex">
                 <div className="md:hidden">
@@ -413,28 +413,28 @@ function DashboardHome() {
           </div>
         )}
         {selectedTab === 1 && (
-          <div className="w-auto col-span-3 items-start h-full">
+          <div className="w-auto col-span-4 items-start">
             <div className="grid bg-gray">
               <div className="bg-white h-auto p-4 flex">
                 <div className="justify-end w-full flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
+              <div className="pt-4 justify-start gap-3 p-3 w-full">
                 <EntriesRecords />
               </div>
             </div>
           </div>
         )}
         {selectedTab === 2 && (
-          <div className="w-auto col-span-3 items-start h-full">
+          <div className="w-auto col-span-4 items-start">
             <div className="grid bg-gray">
               <div className="bg-white h-auto p-4 flex">
                 <div className="justify-end w-full space-x-28 flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
+              <div className="pt-4 justify-start gap-3 p-3 w-full">
                 <UserRecords />
               </div>
             </div>

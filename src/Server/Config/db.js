@@ -16,11 +16,12 @@ const db = mysql.createConnection({
   port: 8889,
   waitForConnections: true,
   connectionLimit: 10,
-  maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
-  idleTimeout: 60000, // idle connections timeout, in milliseconds, the default value 60000
+  maxIdle: 10, 
+  idleTimeout: 60000,
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
+  
 });
 db.connect((err) => {
   if (err) {
@@ -70,7 +71,7 @@ const sendEmailWithQRCode = async (recipientEmail, qrCodeDataUrl) => {
   const transporter = nodemailer.createTransport({
     host: "mail.parentechnology.com",
     port: 465,
-    secure: true, // upgrade later with STARTTLS
+    secure: true,
     auth: {
       user: "zainab@parentechnology.com",
       pass: "zainab123$",
@@ -78,7 +79,7 @@ const sendEmailWithQRCode = async (recipientEmail, qrCodeDataUrl) => {
   });
 
   const mailOptions = {
-    from: "zainab@parentechnology.com", // Replace with your Gmail email
+    from: "zainab@parentechnology.com",
     to: recipientEmail,
     subject: "QR Code for Registration",
     text: "Scan the QR code to enter.",
@@ -123,7 +124,6 @@ app.post("/api/visitor", (req, res) => {
       } else {
         res.status(201).json({
           message: "Registration done successfully",
-          //   userId: result.insertId,
         });
       }
     }
@@ -157,7 +157,6 @@ app.post("/api/user", (req, res) => {
     } else {
       res.status(201).json({
         message: "user added done successfully",
-        //   userId: result.insertId,
       });
     }
   });
