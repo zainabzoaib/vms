@@ -16,13 +16,13 @@ const PieChartWithText = (props) => {
         className="flex shadow-lg bg-white rounded-md p-4 border-1 border-red w-full"
         style={{ textAlign: "left" }}
       >
-        <div style={{ width: '100%', height: '150px'}}>
+    <div style={{ width: '100%', height: '25vh'}}>
       <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               dataKey={datakey}
-              innerRadius={45}
+              innerRadius="55%"
               outerRadius="100%"
               startAngle={810}
               // endAngle={0}
@@ -43,7 +43,7 @@ const PieChartWithText = (props) => {
           </div>
         
         <div className="pt-5 items-center flex">
-          <Typography variant="p" gutterBottom>
+          <Typography variant="p" style={{fontSize: '1.2rem'}} gutterBottom>
             {title} : {total}
           </Typography>
         </div>

@@ -20,7 +20,7 @@ function App() {
   }
 
   return (
-    <section className="h-screen">
+  <section className="h-screen">
       <div className="column-1 bg-red items-center flex md:block w-screen">
         <div className="w-full">
           <img
@@ -30,13 +30,14 @@ function App() {
           />
         </div>
       </div>
-      <div className="bg-white">
         <AuthProvider>
-          <div className="py-4">
+        <div className="bg-white flex items-center md:h-full">
+          <div className="w-full py-4">
+          <div className="block">
             <h1 className="md:text-4xl text-2xl pt-8 font-bold text-center text-text-red">
               WELCOME TO VISITORS MANAGEMENT SYSTEM
             </h1>
-            <p className="text-1xl font-medium text-center pt-10">
+            <p className="text-1xl font-medium text-center pt-5">
               Follow few simple steps to visit people whenever you want!
             </p>
           </div>
@@ -94,11 +95,15 @@ function App() {
               <ChevronRight />
             </button>
           </div>
-          <div className="flex md:justify-start md:px-20 md:py-4 items-center p-2">
+          </div>
+          </div>
+          <div className="flex p-2 justify-center">
+            <div className="md:px-10 md:py-2">
             <p><b>Note:</b> For administration of the application please <a className="font-bold text-center text-text-red" onClick={Login}>click here</a> to login (for admins only). For any further inquiry or question please feel free to reach us on <b>example@test.com</b>. </p>
           </div>
+          </div>
+          
         </AuthProvider>
-      </div>
       <div className="md:column-2 bg-red items-center">
         <div className="text-white text-center py-4">
           <p> © Zainab & keerthika 2023. All right reserved</p>

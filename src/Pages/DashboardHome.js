@@ -367,6 +367,7 @@ function DashboardHome() {
                   <LogoutIconComponent />
                 </div>
               </div>
+              <div className="h-full">
               <div className="w-full md:flex block justify-start p-1">
                 <PieChartWithText
                   title="Daily Visitors"
@@ -396,17 +397,18 @@ function DashboardHome() {
                   yaxis="totalRecords"
                   tooltip="Total Records:"
                 />
-                <div className="bg-white p-3 hidden md:block">
+                <div className="p-3 hidden md:flex items-center">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateCalendar"]}>
                       <DemoItem label="Filter By Date">
-                        <DateCalendar
+                        <DateCalendar style={{ border: '1px solid #000000', borderRadius: '8px', backgroundColor: '#ffffff'}}
                           value={selectedDate}
                           onChange={handleDateChange}
                         />
                       </DemoItem>
                     </DemoContainer>
                   </LocalizationProvider>
+                </div>
                 </div>
               </div>
             </div>

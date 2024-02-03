@@ -47,7 +47,7 @@ const EntriesRecords = ({ entries }) => {
     fetchEntries();
   };
   return (
-    <div className="w-full h-full" style={{width:'100%'}}>
+    <div className="w-full h-screen" style={{width:'100%'}}>
       <DataGrid className="bg-white"
         density="comfortable"
         rows={visitors}
