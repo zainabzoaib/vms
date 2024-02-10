@@ -31,7 +31,7 @@ const QRCodePage = () => {
       {/* desktop view */}
       <div className="md:columns-1 flex items-center h-full">
         <div className="w-full block py-12 p-8">
-          <div class="mx-auto">
+          <div className="mx-auto">
             <h1 className="text-4xl text-center">Registration Successful</h1>
             <p className="text-center">
               Please Scan QR code for simple gate entry.

@@ -65,7 +65,7 @@ const RegistrationForm = () => {
           </div>
         </div>
         <div className="w-full md:items-center md:column-1 h-full flex ">
-          <div class="container py-4">
+          <div className="container py-4">
             <h1 className="text-3xl font-bold mb-8 text-text-red">
               REGISTRATION FORM
             </h1>
@@ -146,7 +146,7 @@ const RegistrationForm = () => {
                 },
               }}
               inputProps={{
-                pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$',
+                pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
                   sx: {
                     borderRadius: '15px',  
                     height: '15px',   
@@ -248,7 +248,7 @@ const RegistrationForm = () => {
               Manage your project and team in easy way
             </p>
           <div className="artwork-bg">
-            <div class="container mx-auto overlay-bg z-10">
+            <div className="container mx-auto overlay-bg z-10">
             <h1 className="text-xl font-bold mb-3 mt-10 text-text-red text-left">
               REGISTRATION FORM
             </h1>
@@ -298,7 +298,7 @@ const RegistrationForm = () => {
                 },
               }}
               inputProps={{
-                pattern: '[0-9]{4}-[0-9]{3}-[0-9]{3}',
+                pattern: '[0-9]{4}[0-9]{3}[0-9]{3}',
                 inputMode: 'numeric',
                   sx: {
                     borderRadius: '15px',  
@@ -328,6 +328,7 @@ const RegistrationForm = () => {
                 },
               }}
               inputProps={{
+                pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
                   sx: {
                     borderRadius: '15px',  
                     height: '15px',   
