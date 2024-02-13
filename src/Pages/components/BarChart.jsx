@@ -17,7 +17,7 @@ const BarChart = (props) => {
     return <p>No data available.</p>;
   }
   return (
-    <div style={{ width: '80%', height: '70vh'}}>
+    <div style={{ width: '100%', height: '70vh'}}>
     <ResponsiveContainer className="md:w-60 w-full" width="100%" height="100%">
       <MuiBarChart
         data={data}

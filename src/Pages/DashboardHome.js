@@ -389,7 +389,7 @@ function DashboardHome() {
                   datakey="count"
                 />
               </div>
-              <div className="pt-4 md:flex block justify-start gap-3 p-3">
+              <div className="md:w-90 pt-4 md:flex block justify-start gap-3 p-3">
                 <Barchart
                   title=""
                   data={barChartData}
@@ -422,7 +422,7 @@ function DashboardHome() {
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3 w-full">
+              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
                 <EntriesRecords />
               </div>
             </div>
@@ -432,11 +432,11 @@ function DashboardHome() {
           <div className="w-auto col-span-4 items-start">
             <div className="grid bg-gray">
               <div className="bg-white h-auto p-4 flex">
-                <div className="justify-end w-full space-x-28 flex">
+                <div className="justify-end w-full flex">
                   <LogoutIconComponent />
                 </div>
               </div>
-              <div className="pt-4 justify-start gap-3 p-3 w-full">
+              <div className="pt-4 justify-start gap-3 p-3 md:w-full w-screen">
                 <UserRecords />
               </div>
             </div>

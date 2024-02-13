@@ -21,14 +21,6 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   const [showAdditionalColumns, setShowAdditionalColumns] = useState(false);
 
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:5000/api/users")
-    //   .then((response) => {
-    //     setUsers(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching users:", error);
-    //   });
     updateTable();
   }, []);
 
@@ -53,7 +45,6 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
     setDiv2Visibility(true);
   };
   const handleEditClick = (userId) => {
-    //setEditMode(userId);
     handleToggleColumns();
     updateTable(); 
   };
@@ -70,7 +61,6 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
       .put(`http://localhost:5000/api/users/${userId}`, editedUser)
       .then((response) => {
         console.log("User updated successfully", response.data);
-        // Handle any other actions upon successful update
         setEditMode(null);
         handleToggleColumns();
         updateTable(); // Exit edit mode
@@ -103,6 +93,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
   };
 
   return (
+
     <div className="w-full bg-white h-screen">
       {isDiv2Visible && (
         <div className="h-screen">
@@ -130,7 +121,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
               ADD NEW USER
             </Button>
           </div>
-          <Paper style={{ width: "100%", overflowX: "auto" }}>
+          <Paper style={{ width: '100%', overflowX: 'auto' }}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -215,6 +206,7 @@ const UserTable = ({ onEdit, onDelete, onAdd, entries }) => {
         </div>
       )}
     </div>
+
   );
 };
 
